@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from authors.schemas import AuthorBase
+from app.authors.schemas import AuthorBase
 
 class BookBase(BaseModel):
     title: str
