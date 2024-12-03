@@ -6,7 +6,7 @@ app = FastAPI()
 
 @app.get("/")
 def welcome():
-    return {"message": "Welcome to BookStore"}
+    return {"message": "Welcome to Library"}
 
 
 if __name__  == "__main__":

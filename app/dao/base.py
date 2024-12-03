@@ -1,5 +1,5 @@
 from app.database import async_session, Base
-from sqlalchemy import delete, insert, select
+from sqlalchemy import delete, select
 
 class BaseDAO:
     model = Base
