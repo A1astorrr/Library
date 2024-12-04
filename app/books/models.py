@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.database import Base
 from typing import Annotated
 
-created_at = Annotated[datetime.datetime, mapped_column(server_default=func.utcnow())]
+created_at = Annotated[datetime.datetime, mapped_column(server_default=func.now())]
 
 class Book(Base):
     __tablename__ = "books"

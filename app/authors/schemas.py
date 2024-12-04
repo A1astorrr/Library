@@ -1,10 +1,10 @@
 from pydantic import BaseModel, ConfigDict
-from datetime import datetime
+from datetime import date
 
 class AuthorBase(BaseModel):
     name: str
     surname: str
-    date_birth: datetime
+    date_birth: date
     biography: str
 
 class AuthorCreate(AuthorBase):
@@ -18,3 +18,4 @@ class Author(AuthorBase):
     model_config  = ConfigDict(from_attributes=True)
     
     id: int
+    

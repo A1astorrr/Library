@@ -1,12 +1,14 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from app.authors.schemas import AuthorBase
+from typing import Annotated
+from fastapi import Depends
 
 class BookBase(BaseModel):
     title: str
     annotation: str
     date_publishing: datetime
-    author_id: AuthorBase
+    author_id: Annotated[AuthorBase, Depends()]
     
 class BookCreate(BookBase):
     pass
