@@ -1,8 +1,8 @@
-"""Creating authors and books table
+"""editing
 
-Revision ID: e2361a06451c
+Revision ID: f43139a9da71
 Revises: 
-Create Date: 2024-12-03 12:53:08.801835
+Create Date: 2024-12-05 13:49:40.545810
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e2361a06451c'
+revision: str = 'f43139a9da71'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -37,7 +37,7 @@ def upgrade() -> None:
     sa.Column('annotation', sa.String(), nullable=False),
     sa.Column('date_publishing', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ),
+    sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_books_id'), 'books', ['id'], unique=False)

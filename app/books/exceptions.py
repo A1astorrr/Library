@@ -4,6 +4,10 @@ BookByIdNotFound = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND, detail="Запись не найдена."
 )
 
+AuthorByIdNotFound = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Автор не найден."
+)
+
 BookNotCreated = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
     detail="Ошибка в создание книги.",

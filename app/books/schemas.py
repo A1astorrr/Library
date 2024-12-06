@@ -1,14 +1,10 @@
 from pydantic import BaseModel, ConfigDict
-from datetime import datetime
 from app.authors.schemas import AuthorBase
-from typing import Annotated
-from fastapi import Depends
 
 class BookBase(BaseModel):
     title: str
     annotation: str
-    date_publishing: datetime
-    author_id: Annotated[AuthorBase, Depends()]
+    author_id: int
     
 class BookCreate(BookBase):
     pass
@@ -19,5 +15,4 @@ class BookUpdate(BookCreate):
     
 class Book(BookBase):
     model_config  = ConfigDict(from_attributes=True)
-    
-    id: int
+    author: AuthorBase

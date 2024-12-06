@@ -9,6 +9,7 @@ from app.authors.exceptions import (
     NotDeletedById,
 )
 
+
 router = APIRouter(
     prefix="/authors",
     tags=["Авторы 📝"],
@@ -16,35 +17,42 @@ router = APIRouter(
 
 
 @router.get("/", response_model=list[Author])
-async def get_books(skip: int = 0, limit: int = 100):
+async def get_authors(skip: int = 0, limit: int = 100):
     books = await AuthorDAO.get_all()
     return books[skip : skip + limit]
 
 
 @router.get("/{author_id}/", response_model=Author)
-async def get_book(author_id: int):
+async def get_author(author_id: int):
     book = await AuthorDAO.get_id(author_id)
     if book is None:
         raise AuthorByIdNotFound
     return book
 
+
 @router.post("/", response_model=Author)
-async def create_book(author: Annotated[AuthorCreate, Depends()]):
+async def create_author(author: Annotated[AuthorCreate, Depends()]):
     created = await AuthorDAO.add(**author.model_dump())
     if created is None:
         raise AuthorNotCreated
     return created
 
+
 @router.put("/{author_id}/")
-async def update_book(author_id: int, todo_update: Annotated[AuthorUpdate, Depends()]):
-    updated = await AuthorDAO.update(author_id, **todo_update.model_dump(exclude_unset=True))
+async def update_author(
+    author_id: int, todo_update: Annotated[AuthorUpdate, Depends()]
+):
+    updated = await AuthorDAO.update(
+        author_id, **todo_update.model_dump(exclude_unset=True)
+    )
     if updated is None:
         raise AuthorNotUpdate
     return {"detail": "Автор успешно обновлен."}
 
+
 @router.delete("/{author_id}/")
-async def delete_book(author_id: int):
+async def delete_author(author_id: int):
     deleted = await AuthorDAO.delete(id=author_id)
     if deleted is None:
         raise NotDeletedById
-    return {"detail":"Автор успешно обновлнеа"}
+    return {"detail": "Автор успешно удален."}
