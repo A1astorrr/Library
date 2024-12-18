@@ -22,7 +22,7 @@ async def get_books(skip: int = 0, limit: int = 100):
     books = await BookDAO.get_all()
     for book in books:
         author = await AuthorDAO.get_id(book.author_id)
-        
+
         book.author = author
     return books[skip : skip + limit]
 
@@ -36,6 +36,7 @@ async def get_book(book_id: int):
     book.author = author
     return book
 
+
 @router.post("/", response_model=Book)
 async def create_book(book: Annotated[BookCreate, Depends()]):
     author = await AuthorDAO.get_id(book.author_id)
@@ -44,27 +45,32 @@ async def create_book(book: Annotated[BookCreate, Depends()]):
     created = await BookDAO.add(**book.model_dump())
     if created is None:
         raise BookNotCreated
-    
+
     created.author = author
     return created
+
+
 
 @router.put("/{book_id}/")
 async def update_book(book_id: int, book_update: Annotated[BookUpdate, Depends()]):
     author = await AuthorDAO.get_id(book_update.author_id)
     if author is None:
         raise AuthorByIdNotFound
-    
-    updated = await BookDAO.update(book_id, **book_update.model_dump(exclude_unset=True))
-    
+
+    updated = await BookDAO.update(
+        book_id, **book_update.model_dump(exclude_unset=True)
+    )
+
     if updated is None:
         raise BookNotUpdate
-    
+
     updated.author = author
     return {"detail": "Книга успешно обновлена."}
+
 
 @router.delete("/{book_id}/")
 async def delete_book(book_id: int):
     deleted = await BookDAO.delete(id=book_id)
     if deleted is None:
         raise NotDeletedById
-    return {"detail":"Книга успешно удалена."}
+    return {"detail": "Книга успешно удалена."}

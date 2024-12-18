@@ -14,4 +14,5 @@ class Author(Base):
 
     books = relationship("Book", back_populates="author")
 
-    
+    def __repr__(self) -> str:
+        return f"<Author(id={self.id}, name='{self.name}', surname='{self.surname}', date_birth='{self.date_birth}')>"
