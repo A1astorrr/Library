@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar
 from app.database import async_session, Base
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, insert
 from typing import Sequence
 
 
@@ -24,7 +24,7 @@ class BaseDAO(Generic[T]):
             return result.scalars().all()
 
     @classmethod
-    async def get_one_or_none(cls, **filter_by) -> T | None:
+    async def find_one_or_none(cls, **filter_by) -> T | None:
         async with async_session() as session:
             query = select(cls.model).filter_by(**filter_by)
             result = await session.execute(query)
@@ -43,7 +43,7 @@ class BaseDAO(Generic[T]):
     @classmethod
     async def delete(cls, **filter_by)  -> T | None:
         async with async_session() as session:
-            deleted = await cls.get_one_or_none(**filter_by)
+            deleted = await cls.find_one_or_none(**filter_by)
             if deleted is None:
                 return None
             query = delete(cls.model).filter_by(**filter_by)

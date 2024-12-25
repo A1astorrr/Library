@@ -1,8 +1,8 @@
-"""editing
+"""initial tables
 
-Revision ID: f43139a9da71
+Revision ID: 02aa1af7e5ee
 Revises: 
-Create Date: 2024-12-05 13:49:40.545810
+Create Date: 2024-12-24 18:55:03.733883
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'f43139a9da71'
+revision: str = '02aa1af7e5ee'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,15 +25,22 @@ def upgrade() -> None:
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('surname', sa.String(), nullable=False),
     sa.Column('date_birth', sa.Date(), nullable=True),
-    sa.Column('biography', sa.String(), nullable=False),
+    sa.Column('biography', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_authors_id'), 'authors', ['id'], unique=False)
     op.create_index(op.f('ix_authors_name'), 'authors', ['name'], unique=False)
     op.create_index(op.f('ix_authors_surname'), 'authors', ['surname'], unique=False)
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(), nullable=False),
+    sa.Column('hashed_password', sa.String(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(), nullable=False),
+    sa.Column('title', sa.String(length=20), nullable=False),
     sa.Column('annotation', sa.String(), nullable=False),
     sa.Column('date_publishing', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
@@ -50,6 +57,8 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_books_title'), table_name='books')
     op.drop_index(op.f('ix_books_id'), table_name='books')
     op.drop_table('books')
+    op.drop_index(op.f('ix_users_id'), table_name='users')
+    op.drop_table('users')
     op.drop_index(op.f('ix_authors_surname'), table_name='authors')
     op.drop_index(op.f('ix_authors_name'), table_name='authors')
     op.drop_index(op.f('ix_authors_id'), table_name='authors')
