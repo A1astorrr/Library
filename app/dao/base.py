@@ -10,14 +10,14 @@ class BaseDAO(Generic[T]):
     model: type[T]
 
     @classmethod
-    async def get_id(cls, id: int) -> T | None:
+    async def find_id(cls, id: int) -> T | None:
         async with async_session() as session:
             query = select(cls.model).filter_by(id=id)
             result = await session.execute(query)
             return result.scalar_one_or_none()
 
     @classmethod
-    async def get_all(cls, **filter_by) -> Sequence[T]:
+    async def find_all(cls, **filter_by) -> Sequence[T]:
         async with async_session() as session:
             query = select(cls.model).filter_by(**filter_by)
             result = await session.execute(query)

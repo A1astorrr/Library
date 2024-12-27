@@ -8,7 +8,7 @@ class BookDAO(BaseDAO):
     @classmethod
     async def update(cls, id: int, **data):
         async with async_session() as session:
-            updated = await cls.get_id(id)
+            updated = await cls.find_id(id)
             if updated is None:
                 return None
             for key, value in data.items():

@@ -18,13 +18,13 @@ router = APIRouter(
 
 @router.get("/", response_model=list[Author])
 async def get_authors(skip: int = 0, limit: int = 100):
-    books = await AuthorDAO.get_all()
+    books = await AuthorDAO.find_all()
     return books[skip : skip + limit]
 
 
 @router.get("/{author_id}/", response_model=Author)
 async def get_author(author_id: int):
-    book = await AuthorDAO.get_id(author_id)
+    book = await AuthorDAO.find_id(author_id)
     if book is None:
         raise AuthorByIdNotFound
     return book
