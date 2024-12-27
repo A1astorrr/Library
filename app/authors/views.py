@@ -3,10 +3,10 @@ from app.authors.crud import AuthorDAO
 from app.authors.schemas import Author, AuthorCreate, AuthorUpdate
 from typing import Annotated
 from app.authors.exceptions import (
-    AuthorByIdNotFound,
-    AuthorNotCreated,
-    AuthorNotUpdate,
-    NotDeletedById,
+    AuthorByIdNotFoundException,
+    AuthorNotCreatedException,
+    AuthorNotUpdateException,
+    NotDeletedByIdException,
 )
 
 
@@ -26,7 +26,7 @@ async def get_authors(skip: int = 0, limit: int = 100):
 async def get_author(author_id: int):
     book = await AuthorDAO.find_id(author_id)
     if book is None:
-        raise AuthorByIdNotFound
+        raise AuthorByIdNotFoundException
     return book
 
 
@@ -34,7 +34,7 @@ async def get_author(author_id: int):
 async def create_author(author: Annotated[AuthorCreate, Depends()]):
     created = await AuthorDAO.add(**author.model_dump())
     if created is None:
-        raise AuthorNotCreated
+        raise AuthorNotCreatedException
     return created
 
 
@@ -46,13 +46,13 @@ async def update_author(
         author_id, **todo_update.model_dump(exclude_unset=True)
     )
     if updated is None:
-        raise AuthorNotUpdate
-    return {"detail": "Автор успешно обновлен."}
+        raise AuthorNotUpdateException
+    return {"detail": "Автор успешно обновлен"}
 
 
 @router.delete("/{author_id}/")
 async def delete_author(author_id: int):
     deleted = await AuthorDAO.delete(id=author_id)
     if deleted is None:
-        raise NotDeletedById
-    return {"detail": "Автор успешно удален."}
+        raise NotDeletedByIdException
+    return {"detail": "Автор успешно удален"}

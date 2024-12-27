@@ -1,20 +1,20 @@
 from fastapi import HTTPException, status
 
-AuthorByIdNotFound = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Author not found."
+AuthorByIdNotFoundException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Автор не найден"
 )
 
-AuthorNotCreated = HTTPException(
+AuthorNotCreatedException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
-    detail="Error in creating the author.",
+    detail="Ошибка в создание автора",
 )
 
-AuthorNotUpdate = HTTPException(
+AuthorNotUpdateException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
-    detail="The author has not been updated.",
+    detail="Автор не обновлен",
 )
 
-NotDeletedById = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Author not found."
+NotDeletedByIdException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Автор не найден"
 )
 

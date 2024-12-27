@@ -1,24 +1,24 @@
 from fastapi import HTTPException, status
 
-BookByIdNotFound = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Book not found."
+BookByIdNotFoundException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Книга не найдена"
 )
 
-AuthorByIdNotFound = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Author not found."
+AuthorByIdNotFoundException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Автор не найден"
 )
 
-BookNotCreated = HTTPException(
+BookNotCreatedException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
-    detail="Error in creating the book.",
+    detail="Ошибка в создание книги",
 )
 
-BookNotUpdate = HTTPException(
+BookNotUpdateException = HTTPException(
     status_code=status.HTTP_404_NOT_FOUND,
-    detail="The book is not updated.",
+    detail="Книга не обновлена",
 )
 
-NotDeletedById = HTTPException(
-    status_code=status.HTTP_404_NOT_FOUND, detail="Book not found."
+NotDeletedByIdException = HTTPException(
+    status_code=status.HTTP_404_NOT_FOUND, detail="Книга не найдена"
 )
 
