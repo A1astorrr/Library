@@ -4,6 +4,8 @@ from app.authors.schemas import AuthorBase
 class BookBase(BaseModel):
     title: str
     annotation: str
+    genre: str
+    publisher: str
     author_id: int
     
 class BookCreate(BookBase):

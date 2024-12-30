@@ -6,11 +6,11 @@ from app.database import Base
 class Author(Base):
     __tablename__ = "authors"
     
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    name: Mapped[str] = mapped_column(index=True)
-    surname: Mapped[str] = mapped_column(index=True)
-    date_birth: Mapped[datetime.date] = mapped_column(Date, nullable=True)
-    biography: Mapped[str] = mapped_column(nullable=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, info={"description": "Уникальный идентификатор автора"})
+    name: Mapped[str] = mapped_column(index=True, info={"description": "Имя автора"})
+    surname: Mapped[str] = mapped_column(index=True, info={"description": "Фамилия автора"})
+    date_birth: Mapped[datetime.date] = mapped_column(Date, nullable=True, info={"description": "Дата рождения автора"})
+    biography: Mapped[str] = mapped_column(nullable=True, info={"description": "Биография автора"})
 
     books = relationship("Book", back_populates="author")
 
