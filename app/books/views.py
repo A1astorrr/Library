@@ -65,7 +65,20 @@ async def update_book(book_id: int, book_update: Annotated[BookUpdate, Depends()
 
     if updated is None:
         raise BookNotUpdateException
-
+    
+    if book_update.title is not None:
+        updated.title = book_update.title
+    if book_update.annotation is not None:
+        updated.annotation = book_update.annotation
+    if book_update.genre is not None:
+        updated.genre = book_update.genre
+    if book_update.publisher is not None:
+        updated.publisher = book_update.publisher
+    if book_update.image_id is not None:
+        updated.image_id = book_update.image_id
+    if book_update.author_id is not None:
+        updated.author_id = book_update.author_id
+    
     updated.author = author
     return {"detail": "Книга успешно обновлена"}
 

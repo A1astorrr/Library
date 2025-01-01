@@ -9,3 +9,4 @@ psycopg2-binary
 asyncpg
 pyjwt
 passlib[bcrypt]
+jinja2

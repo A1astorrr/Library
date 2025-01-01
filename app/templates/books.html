@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Книги</title>
+  </head>
+  <body>
+    <div>
+      {% for book in books %}
+        <div style="display: flex;">
+          <h1>{{ book.title }}</h1>
+          {% if book.image_id %}
+            <img src="{{ url_for('static', path='images/' + book.image_id|string + '.webp') }}" alt="Фото книги" width="200" />
+          {% else %}
+            <img src="{{ url_for('static', path='images/0.webp') }}" alt="Фото не загруженной книги" width="200" />
+          {% endif %}
+          <div>
+            <h4>Описание: {{ book.annotation }}</h4>
+            <h5>Жанр: {{ book.genre }}</h5>
+            <h5>Издательство: {{ book.publisher }}</h5>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>

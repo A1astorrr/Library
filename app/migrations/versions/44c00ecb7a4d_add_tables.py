@@ -1,8 +1,8 @@
-"""creating role
+"""add tables
 
-Revision ID: 6be724caf510
+Revision ID: 44c00ecb7a4d
 Revises: 
-Create Date: 2024-12-27 14:39:12.189667
+Create Date: 2024-12-31 15:00:53.591065
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '6be724caf510'
+revision: str = '44c00ecb7a4d'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -26,6 +26,7 @@ def upgrade() -> None:
     sa.Column('surname', sa.String(), nullable=False),
     sa.Column('date_birth', sa.Date(), nullable=True),
     sa.Column('biography', sa.String(), nullable=True),
+    sa.Column('image_id', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_authors_id'), 'authors', ['id'], unique=False)
@@ -41,9 +42,12 @@ def upgrade() -> None:
     op.create_index(op.f('ix_users_id'), 'users', ['id'], unique=False)
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=20), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('annotation', sa.String(), nullable=False),
     sa.Column('date_publishing', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.Column('genre', sa.String(), nullable=False),
+    sa.Column('publisher', sa.String(), nullable=False),
+    sa.Column('image_id', sa.Integer(), nullable=True),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['authors.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')

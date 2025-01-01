@@ -10,7 +10,7 @@ class AuthorBase(BaseModel):
 
 
 class AuthorCreate(AuthorBase):
-    pass
+    image_id: int| None = None
 
 
 class AuthorUpdate(AuthorCreate):
