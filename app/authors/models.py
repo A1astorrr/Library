@@ -16,3 +16,6 @@ class Author(Base):
 
     def __repr__(self) -> str:
         return f"<Author(id={self.id}, name='{self.name}', surname='{self.surname}', date_birth='{self.date_birth}')>"
+    
+    def __str__(self) -> str:
+        return f"Автор: {self.name} {self.surname}"

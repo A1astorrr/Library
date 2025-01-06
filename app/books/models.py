@@ -22,3 +22,6 @@ class Book(Base):
     
     def __repr__(self) -> str:
         return f"<Book(id={self.id}, title='{self.title}', annotation='{self.annotation}', date_publishing='{self.date_publishing}')>"
+    
+    def __str__(self) -> str:
+        return f"Книга: {self.title}"

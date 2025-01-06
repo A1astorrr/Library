@@ -48,6 +48,16 @@ async def create_book(user: Annotated[User,Depends(get_current_user)], book: Ann
     if created is None:
         raise BookNotCreatedException
 
+    if book.title is not None:
+        created.title = book.title
+    if book.annotation is not None:
+        created.annotation = book.annotation
+    if book.genre is not None:
+        created.genre = book.genre
+    if book.publisher is not None:
+        created.publisher = book.publisher
+    if book.image_id is not None:
+        created.image_id = book.image_id
     created.author = author
     return created
 
@@ -76,8 +86,6 @@ async def update_book(book_id: int, book_update: Annotated[BookUpdate, Depends()
         updated.publisher = book_update.publisher
     if book_update.image_id is not None:
         updated.image_id = book_update.image_id
-    if book_update.author_id is not None:
-        updated.author_id = book_update.author_id
     
     updated.author = author
     return {"detail": "Книга успешно обновлена"}

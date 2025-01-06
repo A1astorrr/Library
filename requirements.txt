@@ -10,3 +10,4 @@ asyncpg
 pyjwt
 passlib[bcrypt]
 jinja2
+sqladmin
