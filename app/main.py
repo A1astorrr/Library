@@ -10,9 +10,10 @@ from app.users.models import User
 from app.users.views import router as auth_router
 from app.pages.views import router as router_pages
 from  app.images.views import router as router_images
+from app.admin.auth import authentication_backend
 
 app = FastAPI()
-admin = Admin(app, engine)
+admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
