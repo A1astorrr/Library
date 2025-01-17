@@ -8,6 +8,8 @@ from app.authors.exceptions import (
     AuthorNotUpdateException,
     NotDeletedByIdException,
 )
+from app.users.dependencies import get_current_admin_user
+from app.users.models import User
 
 
 router = APIRouter(
@@ -31,7 +33,7 @@ async def get_author(author_id: int):
 
 
 @router.post("/", response_model=Author)
-async def create_author(author: Annotated[AuthorCreate, Depends()]):
+async def create_author(user: Annotated[User,Depends(get_current_admin_user)], author: Annotated[AuthorCreate, Depends()]):
     created = await AuthorDAO.add(**author.model_dump())
     if created is None:
         raise AuthorNotCreatedException
@@ -39,7 +41,7 @@ async def create_author(author: Annotated[AuthorCreate, Depends()]):
 
 
 @router.put("/{author_id}/")
-async def update_author(
+async def update_author(user: Annotated[User,Depends(get_current_admin_user)],
     author_id: int, todo_update: Annotated[AuthorUpdate, Depends()]
 ):
     updated = await AuthorDAO.update(
@@ -51,7 +53,7 @@ async def update_author(
 
 
 @router.delete("/{author_id}/")
-async def delete_author(author_id: int):
+async def delete_author(user: Annotated[User,Depends(get_current_admin_user)], author_id: int):
     deleted = await AuthorDAO.delete(id=author_id)
     if deleted is None:
         raise NotDeletedByIdException

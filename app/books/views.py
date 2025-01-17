@@ -4,7 +4,7 @@ from app.books.crud import BookDAO
 from app.books.schemas import Book, BookCreate, BookUpdate
 from typing import Annotated
 from  app.users.models import User
-from app.users.dependencies import get_current_user
+from app.users.dependencies import get_current_user, get_current_admin_user
 from app.books.exceptions import (
     BookByIdNotFoundException,
     BookNotCreatedException,
@@ -40,7 +40,7 @@ async def get_book(book_id: int):
 
 
 @router.post("/", response_model=Book)
-async def create_book(user: Annotated[User,Depends(get_current_user)], book: Annotated[BookCreate, Depends()]):
+async def create_book(user: Annotated[User,Depends(get_current_admin_user)], book: Annotated[BookCreate, Depends()]):
     author = await AuthorDAO.find_id(book.author_id)
     if author is None:
         raise AuthorByIdNotFoundException
@@ -64,7 +64,7 @@ async def create_book(user: Annotated[User,Depends(get_current_user)], book: Ann
 
 
 @router.put("/{book_id}/")
-async def update_book(book_id: int, book_update: Annotated[BookUpdate, Depends()]):
+async def update_book(user: Annotated[User,Depends(get_current_admin_user)], book_id: int, book_update: Annotated[BookUpdate, Depends()]):
     author = await AuthorDAO.find_id(book_update.author_id)
     if author is None:
         raise AuthorByIdNotFoundException
@@ -92,7 +92,7 @@ async def update_book(book_id: int, book_update: Annotated[BookUpdate, Depends()
 
 
 @router.delete("/{book_id}/")
-async def delete_book(book_id: int):
+async def delete_book(user: Annotated[User,Depends(get_current_admin_user)],book_id: int):
     deleted = await BookDAO.delete(id=book_id)
     if deleted is None:
         raise NotDeletedByIdException

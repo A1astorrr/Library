@@ -29,6 +29,3 @@ app.include_router(router_images)
 admin.add_view(UsersAdmin)
 admin.add_view(BooksAdmin)
 admin.add_view(AuthorsAdmin)
-
-if __name__  == "__main__":
-    uvicorn.run("app.main:app", reload=True)

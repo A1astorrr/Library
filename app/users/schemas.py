@@ -7,9 +7,10 @@ class UserRole(str, Enum):
     editor = "editor"
 
 class SUserAuth(BaseModel):
-    email: EmailStr
+    email: EmailStr 
     password: str
     
     
 class SUserAuthAdmin(SUserAuth):
     role: UserRole = UserRole.user
+    

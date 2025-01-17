@@ -2,6 +2,7 @@ from fastapi import APIRouter, Response, Depends
 from app.users.exceptions import (
     IncorrectEmailorPasswordException,
     UserAlreadyExistsException,
+    CannotAddDataToDatabase
 )
 from app.users.models import User
 from app.users.schemas import SUserAuth, SUserAuthAdmin
@@ -18,20 +19,22 @@ router = APIRouter(
 
 # регистрация пользователя
 @router.post("/register")
-async def register_user(user_data: Annotated[SUserAuthAdmin, Depends()]):
+async def register_user(user_data: SUserAuthAdmin):
     existing_user = await UsersDAO.find_one_or_none(email=user_data.email)
     if existing_user:
         raise UserAlreadyExistsException
     hashed_password = get_password_hash(user_data.password)
-    await UsersDAO.add(
+    new_user = await UsersDAO.add(
         email=user_data.email, hashed_password=hashed_password, role=user_data.role
     )
+    if not new_user:
+        raise CannotAddDataToDatabase
     return {"detail": "Пользователь успешно зарегистрирован"}
 
 
 # авторизация пользователя
 @router.post("/login")
-async def login_user(response: Response, user_data: Annotated[SUserAuth, Depends()]):
+async def login_user(response: Response, user_data: SUserAuth):
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise IncorrectEmailorPasswordException
@@ -41,7 +44,7 @@ async def login_user(response: Response, user_data: Annotated[SUserAuth, Depends
 
 
 # удаление  пользователя из системы(выход)
-@router.post("logout")
+@router.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie("books_access_token")
     return {"detail": "Пользователь вышел из системы"}

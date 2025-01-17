@@ -1,0 +1,12 @@
+[
+    {
+        "email": "oleg@mail.ru",
+        "hashed_password": "$2b$12$QME3iemAcOehUEx1t.i9SePEqYa6xx9GOUtplF1NKobispYSjfz7m",
+        "role":"admin"
+    },
+    {
+        "email": "maks@mail.ru",
+        "hashed_password": "$2b$12$5BFnYBBzIzo80jnQkWeDb.aVtbgTGi8Dag0xiAiV/nwdbouP.L0tu",
+        "role":"editor"
+    }
+]

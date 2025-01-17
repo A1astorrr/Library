@@ -11,3 +11,6 @@ pyjwt
 passlib[bcrypt]
 jinja2
 sqladmin
+pytest
+pytest-asyncio
+httpx
